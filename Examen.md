@@ -1,48 +1,90 @@
-# Evaluación: Preguntas Abiertas sobre Git y GitHub
+# Evaluación: Git y GitHub (Fundamentos)
 
-## 1. Explica con una analogía propia las tres áreas de Git.
-Podemos imaginar el flujo de trabajo como preparar una entrega en un taller:
+## Evaluación: Opción Múltiple (1/2)
 
-* **Working Directory (Directorio de trabajo):** Es la mesa donde estás armando y modificando piezas. Puedes probar ideas, rayar o desarmar cosas sin que todavía queden registradas oficialmente.
-* **Staging Area (Área de preparación / Index):** Es la caja de envío donde vas metiendo únicamente las piezas que ya revisaste y decidiste que sí van a formar parte de la siguiente entrega (`git add`).
-* **Repository (Repositorio local):** Es el almacén sellado y con registro histórico. Una vez que cierras la caja y le pones etiqueta (`git commit`), queda guardada una versión permanente a la que puedes volver en el futuro.
+**1. ¿Qué comando mueve cambios al staging area?**
+* **Respuesta:** **b) `git add`**
+* **Explicación:** `git add` prepara y agrupa los cambios modificados o nuevos para incluirlos en el próximo commit.
 
----
+**2. ¿Qué tipo de VCS es Git?**
+* **Respuesta:** **c) Distribuido**
+* **Explicación:** Cada desarrollador cuenta con una copia completa del repositorio y de su historial en su equipo local, lo que permite trabajar sin depender de una conexión constante con un servidor central.
 
-## 2. ¿Cuándo usarías `git stash`?
-Lo usaría cuando estoy a mitad de un cambio en mi rama actual (con código incompleto o que todavía no compila bien para hacer un commit) y necesito **cambiar de rama urgentemente** para atender otra tarea, como revisar un error o hacer `git pull` sin perder lo que llevo avanzado.
+**3. ¿Quién creó Git y en qué año?**
+* **Respuesta:** **b) Linus Torvalds, 2005**
+* **Explicación:** Linus Torvalds desarrolló Git en 2005 para gestionar de manera eficiente el código fuente del kernel de Linux.
 
-`git stash` guarda temporalmente esas modificaciones en una pila limpia y deja mi directorio de trabajo igual que el último commit; cuando termino la emergencia, regreso a mi rama y recupero mi trabajo con `git stash pop`.
-
----
-
-## 3. Encontraste un bug en una librería open source que usa tu sistema. Describe el flujo completo para enviar la corrección.
-Como no tengo permisos directos de escritura en el repositorio original (*upstream*), sigo el flujo de **Fork & Pull Request**:
-
-1. **Fork:** Hago una copia (fork) del repositorio oficial hacia mi propia cuenta de GitHub.
-2. **Clone:** Clono mi fork a mi computadora (`git clone <url-de-mi-fork>`) y agrego el repositorio original como remoto (`git remote add upstream <url-original>`) para mantenerme sincronizado.
-3. **Nueva rama:** Creo una rama específica para el arreglo desde `main` actualizada (`git checkout -b fix/nombre-del-bug`), nunca trabajo directo sobre `main`.
-4. **Corrección y pruebas:** Corrijo el bug, escribo o corro las pruebas unitarias para asegurar que no rompí nada más y hago commits claros (`git add` y `git commit`).
-5. **Push a mi fork:** Subo mi rama a mi repositorio en GitHub (`git push origin fix/nombre-del-bug`).
-6. **Pull Request (PR):** Desde GitHub abro un Pull Request apuntando desde mi rama hacia la rama principal del repositorio original, explicando qué causaba el bug y cómo lo solucioné, quedando atento a las revisiones de los mantenedores.
+**4. ¿Qué hace `git fetch`?**
+* **Respuesta:** **c) Descarga sin fusionar**
+* **Explicación:** `git fetch` trae los commits, ramas y referencias nuevas desde el repositorio remoto a tu copia local, pero no mezcla esos cambios automáticamente con tu trabajo actual.
 
 ---
 
-## 4. Un compañero subió el `.env` con la contraseña de producción. ¿Por qué es grave y qué pasos sigues?
-**¿Por qué es grave?**
-Porque el archivo `.env` contiene credenciales críticas (contraseñas de bases de datos, llaves de API, tokens). Una vez que un archivo entra al historial de Git y se sube al remoto, aunque después lo borres en un commit nuevo, **sigue siendo visible en el historial de commits anteriores** para cualquiera que tenga acceso al repositorio (o para bots que escanean repositorios públicos en segundos).
+## Evaluación: Opción Múltiple (2/2)
+
+**5. Quieres deshacer un commit que ya subiste. ¿Qué usas?**
+* **Respuesta:** **b) `git revert`**
+* **Explicación:** `git revert` crea un commit nuevo que revierte los cambios del commit anterior, lo cual es seguro en ramas compartidas como `main` porque conserva el historial sin reescribirlo.
+
+**6. ¿Qué es `origin`?**
+* **Respuesta:** **c) El nombre por defecto del remoto**
+* **Explicación:** Cuando clonas un repositorio o agregas un remoto inicial, Git asigna por defecto el alias `origin` para referirse a la URL del repositorio remoto.
+
+**7. ¿Qué es un fork?**
+* **Respuesta:** **a) Una copia del repo en tu cuenta de GitHub**
+* **Explicación:** Hacer un fork genera una copia independiente de un repositorio dentro de tu propia cuenta de GitHub para experimentar o proponer cambios mediante un Pull Request.
+
+**8. Los marcadores `<<<<<<<`, `=======`, `>>>>>>>` indican...**
+* **Respuesta:** **b) Un conflicto de fusión**
+* **Explicación:** Aparecen cuando Git no puede resolver automáticamente dos modificaciones distintas hechas en las mismas líneas durante una fusión (`merge`) o `pull`.
+
+---
+
+## Evaluación: Preguntas Abiertas
+
+### 1. Explica con una analogía propia las tres áreas de Git.
+Podemos imaginar el trabajo de un arquitecto al preparar los planos de una obra:
+
+* **Working Directory (Directorio de trabajo):** Es el restirador donde dibujas, borras y haces pruebas libremente sobre los planos actuales sin que exista todavía una versión oficial.
+* **Staging Area (Área de preparación):** Es la carpeta de revisión donde colocas únicamente las hojas que ya revisaste y aprobaste para formar parte de la siguiente entrega (`git add`).
+* **Repository (Repositorio local):** Es el archivo histórico sellado y fechado donde quedan guardadas las versiones aprobadas (`git commit`), de modo que siempre puedes consultar o recuperar un estado anterior del proyecto.
+
+### 2. ¿Cuándo usarías `git stash`?
+Utilizaría `git stash` cuando tengo cambios a medias en mi rama actual (por ejemplo, una función incompleta o pruebas temporales) y necesito cambiar de rama con urgencia o actualizar la rama sin hacer un commit de código sin terminar. Con `git stash` aparto esos cambios de forma temporal y, cuando regreso a mi rama, los recupero con `git stash pop`.
+
+### 3. Encontraste un bug en una librería open source que usa tu sistema. Describe el flujo completo para enviar la corrección.
+El flujo habitual para aportar a un repositorio open source donde no tienes acceso directo de escritura es el siguiente:
+
+1. **Hacer un fork:** Creo una copia del repositorio original en mi cuenta de GitHub.
+2. **Clonar y configurar remotos:** Clono mi fork a mi computadora (`git clone <url-fork>`) y, si es necesario, agrego el repositorio original como remoto (`git remote add upstream <url-original>`) para mantenerme al día.
+3. **Crear una rama de trabajo:** Creo una rama nueva a partir de la rama principal actualizada (por ejemplo, `git switch -c fix/corregir-bug`) para mantener aislado el arreglo.
+4. **Aplicar y probar la corrección:** Modifico el código necesario para resolver el problema, verifico con pruebas que todo funcione bien y registro los cambios con `git add` y `git commit`.
+5. **Subir la rama a mi fork:** Envío la rama a mi repositorio en GitHub mediante `git push origin fix/corregir-bug`.
+6. **Abrir un Pull Request:** Desde GitHub abro un Pull Request desde mi rama hacia la rama principal del proyecto original, explicando claramente el bug encontrado, cómo se reprodujo y cómo se solucionó, para que los mantenedores lo revisen.
+
+### 4. Un compañero subió el `.env` con la contraseña de producción. ¿Por qué es grave y qué pasos sigues?
+**Por qué es grave:** El archivo `.env` suele contener secretos sensibles como contraseñas de bases de datos, llaves de API o credenciales de servicios. Una vez que el archivo queda registrado en el historial de Git y se envía a un repositorio remoto, no basta con borrarlo en un commit posterior, ya que sigue existiendo en el historial anterior y puede quedar expuesto ante personas o sistemas automatizados con acceso al repositorio.
 
 **Pasos a seguir:**
-1. **Rotar las credenciales de inmediato (paso más importante):** Cambiar la contraseña de producción, revocar tokens y generar nuevas llaves API. Asumo que la contraseña anterior ya está comprometida.
-2. **Eliminar el archivo del seguimiento de Git sin borrarlo localmente:** Ejecutar `git rm --cached .env` para sacarlo del repositorio manteniendo el archivo en la máquina local.
-3. **Protegerlo en `.gitignore`:** Agregar `.env` dentro del archivo `.gitignore` para evitar que vuelva a subirse por accidente.
-4. **Limpiar el historial de Git (si es necesario):** Usar herramientas como `git filter-repo` o BFG Repo-Cleaner para borrar todo rastro del `.env` en commits pasados y hacer `git push --force`, avisando al equipo para que vuelvan a clonar o sincronizar sus ramas.
+1. **Rotar las credenciales de inmediato:** Cambiar de inmediato la contraseña de producción, revocar tokens y generar claves nuevas, dando por hecho que la credencial anterior pudo quedar expuesta.
+2. **Dejar de rastrear el archivo sin borrarlo del disco:** Ejecutar `git rm --cached .env` para retirarlo del índice de Git manteniendo la copia local en el equipo.
+3. **Añadirlo a `.gitignore`:** Incluir `.env` en `.gitignore` para evitar que vuelva a agregarse por accidente en futuros commits.
+4. **Limpiar el historial si corresponde:** Si el repositorio es público o el historial debe sanearse, reescribir el historial con herramientas como `git filter-repo` o BFG Repo-Cleaner y coordinar con el equipo la actualización de sus copias locales.
+
+### 5. Un deploy de ayer rompió producción y el commit ya está en `main`. ¿Usas `reset` o `revert`? ¿Por qué?
+Utilizaría **`git revert`**.
+
+Lo hago porque `main` es una rama compartida que ya está desplegada en producción. `git revert` genera un commit nuevo que deshace los cambios del commit problemático sin alterar ni borrar el historial existente, lo que evita desincronizar las copias de otros integrantes del equipo y mantiene un registro claro de qué ocurrió y cómo se corrigió. A diferencia de `git reset --hard`, no reescribe la historia compartida ni exige forzar el envío (`--force`) sobre `main`.
 
 ---
 
-## 5. Un deploy de ayer rompió producción y el commit ya está en `main`. ¿Usas `reset` o `revert`? ¿Por qué?
-Uso **`git revert`**.
+## Ejercicio de Diagnóstico
 
-**¿Por qué?**
-* Porque `main` es una rama compartida y pública que ya está en producción. `git revert <hash-del-commit>` crea un **nuevo commit** que deshace exactamente los cambios del commit defectuoso sin reescribir ni borrar el historial previo.
-* Si usara `git reset --hard`, estaría alterando el historial de commits y obligaría a hacer un `git push --force`, lo cual desincronizaría el repositorio de todos mis compañeros y borraría la trazabilidad de lo que ocurrió en producción.
+**Secuencia ordenada para publicar un cambio nuevo:**
+
+1. `git switch -c feat/x`
+2. `git pull`
+3. `editar archivos`
+4. `git add .`
+5. `git commit -m "..."`
+6. `git push`
